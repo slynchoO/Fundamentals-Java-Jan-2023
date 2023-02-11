@@ -1,0 +1,87 @@
+package fundamentals.methodsExe;
+
+import java.util.Scanner;
+
+public class PassValidator {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        //•	6 – 10 characters (inclusive);
+        //•	Consists only of letters and digits;
+        //•	Have at least 2 digits.
+
+        String password = sc.nextLine();
+        boolean charCount = charCount(password);
+        boolean symbolsCheck = symbolsCheck(password);
+        if (!symbolsCheck) {
+            System.out.println("Password must consist only of letters and digits");
+        }
+
+        boolean digitsCount = digitsCount(password);
+        boolean total = charCount && symbolsCheck && digitsCount;
+
+        if (total) {
+            System.out.println("Password is valid");
+        }
+    }
+
+    public static boolean charCount(String text) {
+        if (text.length() < 6 || text.length() > 10) {
+            System.out.println("Password must be between 6 and 10 characters");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static boolean symbolsCheck(String text) {
+        String[] invalidSymbols = {"+", ".", ">", "<", "-", "'", "§", "$", "%", "&", "/", "(", ",", ")", "=", "?", "!", "`", ":", ";", "*", "~"};
+
+        boolean checked = false;
+        for (int i = 0; i < text.length(); i++) {
+            char currentChar = text.charAt(i);
+            if (checked) {
+                break;
+            }
+
+            if (currentChar >= 65 && currentChar <= 90 || currentChar >= 97 && currentChar <= 122 || currentChar >= 48 && currentChar <= 57) {
+                checked = false;
+            } else {
+                checked = true;
+            }
+        }
+        if (checked) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static boolean digitsCount(String text) {
+        int count = 0;
+        boolean checked = false;
+        char[] number = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+        for (int i = 0; i < text.length(); i++) {
+            for (int j = 0; j < number.length; j++) {
+                char currentChar = text.charAt(i);
+                char charArr = number[j];
+                if (currentChar == charArr) {
+                    count++;
+                    if (count == 2) {
+                        checked = true;
+                        break;
+                    }
+                }
+            }
+            if (checked) {
+                break;
+            }
+        }
+        if (checked) {
+            return true;
+        } else {
+            System.out.println("Password must have at least 2 digits");
+            return false;
+        }
+    }
+}
